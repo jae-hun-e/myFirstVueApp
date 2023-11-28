@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[40px] w-[200px] relative">
+  <div class="h-[40px] w-5/6 fixed top-0">
     <input
       class="pl-2 pr-8 px-0 border-none outline-none rounded-l-xl bg-white absolute top-0 bottom-0 left-0 right-0 shadow-xl"
       placeholder="영화를 검색해 주세요."
@@ -26,8 +26,7 @@ async function search(event: KeyboardEvent | MouseEvent) {
   if (event instanceof KeyboardEvent && event.isComposing) return
   if (!title.value.trim()) return
   try {
-    const data = await moviesStore.searchMovies({ s: title.value })
-    console.log(data)
+    await moviesStore.searchMovies({ title: title.value })
     title.value = ''
   } catch (e) {
     console.error('movie list search fail', e)
