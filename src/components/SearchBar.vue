@@ -1,7 +1,7 @@
 <template>
-  <div class="h-[40px] w-5/6 fixed top-0">
+  <div class="h-[40px] w-5/6 fixed top-5">
     <input
-      class="pl-2 pr-8 px-0 border-none outline-none rounded-l-xl bg-white absolute top-0 bottom-0 left-0 right-0 shadow-xl"
+      class="pl-2 pr-8 px-0 border-none outline-none rounded-l-xl rounded-r-xl bg-white absolute top-0 bottom-0 left-0 right-0 shadow-xl"
       placeholder="영화를 검색해 주세요."
       :value="title"
       @input="title = ($event.target as HTMLInputElement).value"

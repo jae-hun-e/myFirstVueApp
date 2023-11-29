@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-[50px] w-5/6 flex flex-wrap gap-2 justify-start">
+  <div class="mt-[70px] w-5/6 flex flex-wrap justify-center gap-2">
     <MovieItem
       v-for="movie in moviesStore.movies.Search"
       :key="movie.imdbID"
@@ -10,5 +10,4 @@
 import MovieItem from '@/components/MovieItem.vue'
 import { useMoviesStore } from '@/store/movies.ts'
 const moviesStore = useMoviesStore()
-console.log(moviesStore.movies.Search)
 </script>
