@@ -9,8 +9,9 @@ export default createRouter({
       component: MainPage
     },
     {
-      path: '/detail',
-      component: DetailPage
+      path: '/detail/:id',
+      component: DetailPage,
+      props: true
     }
   ]
 })

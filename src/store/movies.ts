@@ -1,6 +1,10 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import { IMovies, IMovieSearchResponseQuery } from '@/type/movieType.ts'
+import {
+  IMovieDetail,
+  IMovies,
+  IMovieSearchResponseQuery
+} from '@/type/movieType.ts'
 
 export const useMoviesStore = defineStore('movies', {
   state: () => ({
@@ -18,3 +22,17 @@ export const useMoviesStore = defineStore('movies', {
     }
   }
 })
+
+// todo 전역으로 바꿀 시 캐싱처리랑 같이 하자
+// export const useMovieDetailStore = defineStore('movieDetail', {
+//   state: () => ({
+//     movieDetail: {} as IMovieDetail
+//   }),
+//   getters: {},
+//   actions: {
+//     async searchMovieDetail(id: string) {
+//       const { data } = await axios.get(`/api/getMovieDetail?id=${id}`)
+//       this.movieDetail = data
+//     }
+//   }
+// })
