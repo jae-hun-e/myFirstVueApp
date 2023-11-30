@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { IMovies, IMovieSearchResponseQuery } from '@/type/movieType.ts'
+import { ERROR_MESSAGE } from '@/constants/errorMsg.ts'
 
 export const useMoviesStore = defineStore('movies', {
   state: () => ({
@@ -13,22 +14,12 @@ export const useMoviesStore = defineStore('movies', {
       y && query.push(`y=${y}`)
       page && query.push(`page=${page}`)
 
-      const { data } = await axios.get(`/api/getMovieList?${query.join('&')}`)
-      this.movies = data
+      try {
+        const { data } = await axios.get(`/api/getMovieList?${query.join('&')}`)
+        this.movies = data
+      } catch (e) {
+        console.error(ERROR_MESSAGE.GET_MOVIE_LIST)
+      }
     }
   }
 })
-
-// todo 전역으로 바꿀 시 캐싱처리랑 같이 하자
-// export const useMovieDetailStore = defineStore('movieDetail', {
-//   state: () => ({
-//     movieDetail: {} as IMovieDetail
-//   }),
-//   getters: {},
-//   actions: {
-//     async searchMovieDetail(id: string) {
-//       const { data } = await axios.get(`/api/getMovieDetail?id=${id}`)
-//       this.movieDetail = data
-//     }
-//   }
-// })

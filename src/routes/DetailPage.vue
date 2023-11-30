@@ -74,21 +74,25 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { IMovieDetail } from '@/type/movieType.ts'
-
 import TheLoader from '@/components/TheLoader.vue'
 import { filterNullValue } from '@/utils/validatedValue.ts'
 import { splitPeopleList } from '@/utils/handleString.ts'
+import { ERROR_MESSAGE } from '@/constants/errorMsg.ts'
 
 const { id } = defineProps(['id'])
 const movieInfo = ref<IMovieDetail | null>(null)
 const isLoading = ref<boolean>(false)
 
 async function dataFetch() {
-  const { data }: { data: IMovieDetail } = await axios.get(
-    `/api/getMovieDetail?id=${id}`
-  )
-  movieInfo.value = data
-  isLoading.value = true
+  try {
+    const { data }: { data: IMovieDetail } = await axios.get(
+      `/api/getMovieDetail?id=${id}`
+    )
+    movieInfo.value = data
+    isLoading.value = true
+  } catch (e) {
+    console.error(ERROR_MESSAGE.GET_MOVIE_DETAIL)
+  }
 }
 dataFetch()
 
