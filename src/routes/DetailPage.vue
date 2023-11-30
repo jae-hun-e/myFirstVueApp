@@ -8,12 +8,16 @@
     v-if="isLoading && movieInfo"
     class="flex flex-col-reverse justify-center p-20 md:flex-row gap-4">
     <article class="flex flex-col gap-4 w-full md:w-2/3">
-      <h1 class="text-3xl md:text-5xl font-bold">{{ movieInfo.Title }}</h1>
+      <h1 class="text-3xl md:text-5xl font-bold">
+        {{ filterNullValue(movieInfo.Title) }}
+      </h1>
       <div class="flex flex-wrap gap-3">
         <p>감독 :</p>
         <div class="flex flex-wrap gap-2">
           <p
-            v-for="(director, idx) of peopleList(movieInfo.Director)"
+            v-for="(director, idx) of splitPeopleList(
+              filterNullValue(movieInfo.Director)
+            )"
             :key="idx"
             class="bg-lime-500 rounded-xl px-1 text-white">
             {{ director }}
@@ -24,7 +28,9 @@
         <p>배우 :</p>
         <div class="flex flex-wrap gap-2">
           <p
-            v-for="(actor, idx) of peopleList(movieInfo.Actors)"
+            v-for="(actor, idx) of splitPeopleList(
+              filterNullValue(movieInfo.Actors)
+            )"
             :key="idx"
             class="bg-amber-400 rounded-xl px-1 text-white">
             {{ actor }}
@@ -35,7 +41,9 @@
         <p>작가 :</p>
         <div class="flex flex-wrap gap-2">
           <p
-            v-for="(writer, idx) of peopleList(movieInfo.Writer)"
+            v-for="(writer, idx) of splitPeopleList(
+              filterNullValue(movieInfo.Writer)
+            )"
             :key="idx"
             class="bg-fuchsia-400 rounded-xl px-1 text-white">
             {{ writer }}
@@ -45,9 +53,9 @@
       <div
         class="flex flex-wrap justify-center gap-3 cursor-pointer bg-blue-400 rounded-xl p-2"
         @click="togglePlot">
-        <p class="text-2xl">줄거리</p>
+        <p class="text-2xl w-full text-center">줄거리</p>
         <p class="text-black text-xl line-clamp-2">
-          {{ movieInfo.Plot }}
+          {{ filterNullValue(movieInfo.Plot) }}
         </p>
       </div>
     </article>
@@ -56,7 +64,7 @@
       :src="
         movieInfo.Poster !== 'N/A'
           ? highResolutionImage(movieInfo.Poster)
-          : noImage
+          : noImg
       "
       class="md:w-1/3 aspect-3/4" />
   </section>
@@ -66,13 +74,14 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { IMovieDetail } from '@/type/movieType.ts'
-import imgURL from '@/assets/none.jpg'
+import noImg from '@/assets/none.jpg'
 import TheLoader from '@/components/TheLoader.vue'
+import { filterNullValue } from '@/utils/validatedValue.ts'
+import { splitPeopleList } from '@/utils/handleString.ts'
 
 const { id } = defineProps(['id'])
 const movieInfo = ref<IMovieDetail | null>(null)
 const isLoading = ref<boolean>(false)
-const noImage = imgURL
 
 async function dataFetch() {
   const { data }: { data: IMovieDetail } = await axios.get(
@@ -85,10 +94,6 @@ dataFetch()
 
 function highResolutionImage(url: string) {
   return url.replace('SX300', 'SX700')
-}
-
-function peopleList(peoples: string) {
-  return peoples.split(', ')
 }
 
 function togglePlot(e: MouseEvent) {
