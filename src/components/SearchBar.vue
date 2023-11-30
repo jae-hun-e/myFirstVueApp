@@ -22,6 +22,8 @@ import { useMoviesStore } from '@/store/movies.ts'
 const moviesStore = useMoviesStore()
 const title = ref('')
 const props = defineProps<{ onSearch: () => void }>()
+let isInit = true
+
 async function search(event: KeyboardEvent | MouseEvent) {
   if (event instanceof KeyboardEvent && event.isComposing) return
   if (!title.value.trim()) {
@@ -29,10 +31,13 @@ async function search(event: KeyboardEvent | MouseEvent) {
     return
   }
   try {
-    props.onSearch()
+    isInit && props.onSearch()
     moviesStore.movies = null
+
     await moviesStore.searchMovies({ title: title.value })
     title.value = ''
+
+    isInit && (isInit = false)
   } catch (e) {
     console.error('movie list search fail', e)
   }
