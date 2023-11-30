@@ -64,7 +64,7 @@
       :src="
         movieInfo.Poster !== 'N/A'
           ? highResolutionImage(movieInfo.Poster)
-          : noImg
+          : '/noneImg.jpg'
       "
       class="md:w-1/3 aspect-3/4" />
   </section>
@@ -74,7 +74,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { IMovieDetail } from '@/type/movieType.ts'
-import noImg from '@/assets/none.jpg'
+
 import TheLoader from '@/components/TheLoader.vue'
 import { filterNullValue } from '@/utils/validatedValue.ts'
 import { splitPeopleList } from '@/utils/handleString.ts'
