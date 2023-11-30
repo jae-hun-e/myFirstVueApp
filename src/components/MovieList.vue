@@ -1,13 +1,20 @@
 <template>
-  <div class="mt-[70px] w-5/6 flex flex-wrap justify-center gap-2">
+  <article v-if="!moviesStore.movies">
+    <TheLoader />
+  </article>
+
+  <article
+    v-if="moviesStore.movies"
+    class="w-full flex flex-wrap justify-center gap-2">
     <MovieItem
       v-for="movie in moviesStore.movies.Search"
       :key="movie.imdbID"
       :movie="movie" />
-  </div>
+  </article>
 </template>
 <script setup lang="ts">
 import MovieItem from '@/components/MovieItem.vue'
 import { useMoviesStore } from '@/store/movies.ts'
+import TheLoader from '@/components/TheLoader.vue'
 const moviesStore = useMoviesStore()
 </script>

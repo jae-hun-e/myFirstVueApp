@@ -7,7 +7,7 @@
       @input="title = ($event.target as HTMLInputElement).value"
       @keydown.enter="search" />
     <TheIcon
-      class="absolute right-0 top-0 bottom-0 m-auto cursor-pointer"
+      class="absolute right-2 top-0 bottom-0 m-auto cursor-pointer"
       @click="search">
       search
     </TheIcon>
@@ -21,11 +21,16 @@ import { useMoviesStore } from '@/store/movies.ts'
 
 const moviesStore = useMoviesStore()
 const title = ref('')
-
+const props = defineProps<{ onSearch: () => void }>()
 async function search(event: KeyboardEvent | MouseEvent) {
   if (event instanceof KeyboardEvent && event.isComposing) return
-  if (!title.value.trim()) return
+  if (!title.value.trim()) {
+    alert('검색어를 입력해 주세요.')
+    return
+  }
   try {
+    props.onSearch()
+    moviesStore.movies = null
     await moviesStore.searchMovies({ title: title.value })
     title.value = ''
   } catch (e) {

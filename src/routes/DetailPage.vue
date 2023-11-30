@@ -1,9 +1,11 @@
 <template>
-  <section v-if="!isLoading">
-    <p>로딩중...</p>
+  <section
+    v-if="!isLoading"
+    class="w-full h-[100vh] flex justify-center items-center">
+    <TheLoader />
   </section>
   <section
-    v-if="isLoading"
+    v-if="isLoading && movieInfo"
     class="flex flex-col-reverse justify-center p-20 md:flex-row gap-4">
     <article class="flex flex-col gap-4 w-full md:w-2/3">
       <h1 class="text-3xl md:text-5xl font-bold">{{ movieInfo.Title }}</h1>
@@ -42,7 +44,7 @@
       </div>
       <div
         class="flex flex-wrap justify-center gap-3 cursor-pointer bg-blue-400 rounded-xl p-2"
-        @click="openPlot">
+        @click="togglePlot">
         <p class="text-2xl">줄거리</p>
         <p class="text-black text-xl line-clamp-2">
           {{ movieInfo.Plot }}
@@ -56,7 +58,7 @@
           ? highResolutionImage(movieInfo.Poster)
           : noImage
       "
-      class="w-full md:w-1/3" />
+      class="md:w-1/3 aspect-3/4" />
   </section>
 </template>
 
@@ -65,9 +67,10 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { IMovieDetail } from '@/type/movieType.ts'
 import imgURL from '@/assets/none.jpg'
+import TheLoader from '@/components/TheLoader.vue'
 
 const { id } = defineProps(['id'])
-const movieInfo = ref<IMovieDetail>(null)
+const movieInfo = ref<IMovieDetail | null>(null)
 const isLoading = ref<boolean>(false)
 const noImage = imgURL
 
@@ -88,11 +91,9 @@ function peopleList(peoples: string) {
   return peoples.split(', ')
 }
 
-function openPlot(e: MouseEvent) {
+function togglePlot(e: MouseEvent) {
   const target = e.currentTarget as HTMLElement
-
-  const plot = target.lastElementChild
-  console.log(plot)
+  const plot = target.lastElementChild as HTMLElement
   plot.classList.toggle('line-clamp-2')
 }
 </script>

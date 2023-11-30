@@ -1,14 +1,10 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import {
-  IMovieDetail,
-  IMovies,
-  IMovieSearchResponseQuery
-} from '@/type/movieType.ts'
+import { IMovies, IMovieSearchResponseQuery } from '@/type/movieType.ts'
 
 export const useMoviesStore = defineStore('movies', {
   state: () => ({
-    movies: {} as IMovies
+    movies: null as IMovies | null
   }),
   getters: {},
   actions: {
