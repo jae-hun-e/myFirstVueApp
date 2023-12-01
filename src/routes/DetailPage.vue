@@ -101,8 +101,12 @@ function highResolutionImage(url: string) {
 }
 
 function togglePlot(e: MouseEvent) {
-  const target = e.currentTarget as HTMLElement
-  const plot = target.lastElementChild as HTMLElement
+  const target = e.currentTarget
+
+  if (!(target instanceof HTMLElement)) return
+  const plot = target.lastElementChild
+
+  if (!(plot instanceof HTMLElement)) return
   plot.classList.toggle('line-clamp-2')
 }
 </script>
