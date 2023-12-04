@@ -71,12 +71,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import { IMovieDetail } from '@/type/movieType.ts'
 import TheLoader from '@/components/TheLoader.vue'
 import { filterNullValue } from '@/utils/validatedValue.ts'
-import { splitPeopleList } from '@/utils/handleString.ts'
+import { highResolutionImage, splitPeopleList } from '@/utils/handleString.ts'
 import { ERROR_MESSAGE } from '@/constants/errorMsg.ts'
 
 const { id } = defineProps(['id'])
@@ -94,11 +94,6 @@ async function dataFetch() {
     console.error(ERROR_MESSAGE.GET_MOVIE_DETAIL)
   }
 }
-dataFetch()
-
-function highResolutionImage(url: string) {
-  return url.replace('SX300', 'SX700')
-}
 
 function togglePlot(e: MouseEvent) {
   const target = e.currentTarget
@@ -109,4 +104,8 @@ function togglePlot(e: MouseEvent) {
   if (!(plot instanceof HTMLElement)) return
   plot.classList.toggle('line-clamp-2')
 }
+
+onMounted(() => {
+  dataFetch()
+})
 </script>
