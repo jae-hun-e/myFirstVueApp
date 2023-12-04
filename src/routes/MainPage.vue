@@ -2,7 +2,7 @@
   <main class="flex flex-col justify-center items-center">
     <SearchBar :on-search="setInit" />
     <section
-      class="mt-[70px] w-5/6 h-[calc(100vh-70px)] flex justify-center items-center">
+      class="mt-[70px] w-5/6 min-h-[calc(100vh-70px)] flex justify-center items-center">
       <h1
         v-if="isInit"
         class="text-3xl font-bold">

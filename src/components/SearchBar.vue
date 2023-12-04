@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[40px] w-5/6 fixed top-5">
+  <div class="h-[40px] w-5/6 fixed top-5 z-10">
     <input
       class="pl-2 pr-8 px-0 border-none outline-none rounded-l-xl rounded-r-xl bg-white absolute top-0 bottom-0 left-0 right-0 shadow-xl"
       placeholder="영화를 검색해 주세요."
@@ -32,10 +32,7 @@ async function search(event: KeyboardEvent | MouseEvent) {
   }
   try {
     isInit && props.onSearch()
-    moviesStore.movies = null
-
-    await moviesStore.searchMovies({ title: title.value })
-    title.value = ''
+    await moviesStore.searchMovies({ title: title.value, page: 1 })
 
     isInit && (isInit = false)
   } catch (e) {
