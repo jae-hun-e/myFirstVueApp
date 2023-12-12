@@ -11,7 +11,8 @@ export default createRouter({
     },
     {
       path: '/:title',
-      component: MovieListPage
+      component: MovieListPage,
+      props: true
     },
     {
       path: '/detail/:id',
