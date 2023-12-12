@@ -1,11 +1,11 @@
 <template>
-  <section
-    v-if="!isLoading"
+  <div
+    v-if="isLoading"
     class="w-full h-[100vh] flex justify-center items-center">
     <TheLoader />
-  </section>
+  </div>
   <section
-    v-if="isLoading && movieInfo"
+    v-if="!isLoading && movieInfo"
     class="flex flex-col-reverse justify-center p-20 md:flex-row gap-4">
     <article class="flex flex-col gap-4 w-full md:w-2/3">
       <h1 class="text-3xl md:text-5xl font-bold">
@@ -74,22 +74,22 @@
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import { IMovieDetail } from '@/type/movieType.ts'
-import TheLoader from '@/components/TheLoader.vue'
+import TheLoader from '@/components/YellowSpinnerLoader.vue'
 import { filterNullValue } from '@/utils/validatedValue.ts'
 import { highResolutionImage, splitPeopleList } from '@/utils/handleString.ts'
 import { ERROR_MESSAGE } from '@/constants/errorMsg.ts'
 
 const { id } = defineProps(['id'])
 const movieInfo = ref<IMovieDetail | null>(null)
-const isLoading = ref<boolean>(false)
+const isLoading = ref<boolean>(true)
 
-async function dataFetch() {
+async function getMovieDetails() {
   try {
-    const { data }: { data: IMovieDetail } = await axios.get(
+    const { data: movieDetailData }: { data: IMovieDetail } = await axios.get(
       `/api/getMovieDetail?id=${id}`
     )
-    movieInfo.value = data
-    isLoading.value = true
+    movieInfo.value = movieDetailData
+    isLoading.value = false
   } catch (e) {
     console.error(ERROR_MESSAGE.GET_MOVIE_DETAIL)
   }
@@ -106,6 +106,6 @@ function togglePlot(e: MouseEvent) {
 }
 
 onMounted(() => {
-  dataFetch()
+  getMovieDetails()
 })
 </script>

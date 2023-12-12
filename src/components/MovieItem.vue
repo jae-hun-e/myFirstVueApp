@@ -14,5 +14,6 @@
 <script setup lang="ts">
 import { IMovie } from '@/type/movieType.ts'
 import { filterNullValue } from '@/utils/validatedValue.ts'
+
 defineProps<{ movie: IMovie }>()
 </script>

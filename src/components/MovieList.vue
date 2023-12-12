@@ -1,16 +1,16 @@
 <template>
   <section class="flex flex-col relative">
-    <article
+    <div
       v-if="moviesStore.isLoading"
       class="flex justify-center items-center fixed top-1/2 left-1/2">
       <TheLoader />
-    </article>
+    </div>
     <article v-if="moviesStore.movies">
-      <h1
+      <p
         v-if="moviesStore.movies.Response === 'False'"
         class="text-3xl font-bold">
         해당 키워드의 영화가 없습니다 :(
-      </h1>
+      </p>
       <div
         v-else
         class="flex flex-col">
@@ -27,9 +27,9 @@
 </template>
 <script setup lang="ts">
 import MovieItem from '@/components/MovieItem.vue'
-import { useMoviesStore } from '@/store/movies.ts'
-import TheLoader from '@/components/TheLoader.vue'
+import TheLoader from '@/components/YellowSpinnerLoader.vue'
 import Observer from '@/components/Observer.vue'
+import { useMoviesStore } from '@/store/movies.ts'
 
 const moviesStore = useMoviesStore()
 

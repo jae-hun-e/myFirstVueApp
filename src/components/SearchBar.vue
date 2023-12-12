@@ -18,11 +18,11 @@
 import TheIcon from '@/components/TheIcon.vue'
 import { ref } from 'vue'
 import { useMoviesStore } from '@/store/movies.ts'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const moviesStore = useMoviesStore()
 const title = ref('')
-const props = defineProps<{ onSearch: () => void }>()
-let isInit = true
 
 async function search(event: KeyboardEvent | MouseEvent) {
   if (event instanceof KeyboardEvent && event.isComposing) return
@@ -31,10 +31,8 @@ async function search(event: KeyboardEvent | MouseEvent) {
     return
   }
   try {
-    isInit && props.onSearch()
-    await moviesStore.searchMovies({ title: title.value, page: 1 })
-
-    isInit && (isInit = false)
+    await moviesStore.searchMovies({ title: title.value.trim(), page: 1 })
+    await router.push(`/${title.value}`)
   } catch (e) {
     console.error('movie list search fail', e)
   }
